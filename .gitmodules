@@ -1,0 +1,3 @@
+[submodule "shared-lib"]
+	path = shared-lib
+	url = https://github.com/mohitmkg65/testing.git
