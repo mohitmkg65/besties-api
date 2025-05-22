@@ -8,8 +8,8 @@ import mongoose from "mongoose";
 export const addFreind = async (req: SessionInterface, res: Response) => {
     try {
         req.body.user = req.session?.id
-        const freind = await FreindModel.create(req.body)
-        res.json(freind)
+        await FreindModel.create(req.body)
+        res.json({message: "Freind request sent"})
     } catch (error) {
         CatchError(error, res, 'Failed to send freind request')
     }

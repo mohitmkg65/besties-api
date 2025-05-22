@@ -1,3 +1,7 @@
+import AuthApiDoc from "../swagger/auth.swagger"
+import FreindApiDoc from "../swagger/freind.swagger"
+import StorageApiDoc from "../swagger/storage.swagger"
+
 const SwaggerConfig = {
     openapi: "3.0.0",
     info: {
@@ -11,7 +15,12 @@ const SwaggerConfig = {
     },
     servers: [
         {url: process.env.SERVER}
-    ]
+    ],
+    paths: {
+        ...AuthApiDoc,
+        ...StorageApiDoc,
+        ...FreindApiDoc
+    }
 }
 
 export default SwaggerConfig
