@@ -5,6 +5,8 @@ import mongoose from "mongoose"
 mongoose.connect(process.env.DB!)
 
 import express from "express"
+import { createServer } from "http"
+import { Server } from "socket.io"
 import cors from "cors"
 import cookieParser from 'cookie-parser'
 import AuthRouter from "./router/auth.router"
@@ -15,7 +17,19 @@ import SwaggerConfig from "./util/swagger"
 import { serve, setup } from "swagger-ui-express"
 
 const app = express()
-app.listen(process.env.PORT || 8080, () => console.log(`server is running on ${process.env.PORT}`) )
+const server = createServer(app)
+const io = new Server(server, {
+    cors: {
+        origin: process.env.CLIENT,
+        credentials: true
+    }
+})
+
+server.listen(process.env.PORT || 8080, () => console.log(`server is running on ${process.env.PORT}`) )
+
+io.on("connection", (client) => {
+    console.log("User connected")
+})
 
 app.use(cors({
     origin: process.env.CLIENT,
