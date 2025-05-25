@@ -15,30 +15,25 @@ import AuthMiddleware from "./middleware/auth.middleware"
 import FreindRouter from "./router/freind.router"
 import SwaggerConfig from "./util/swagger"
 import { serve, setup } from "swagger-ui-express"
+import StatusSocket from "./socket/status.socket"
+import CorsConfig from "./util/cors"
 
+// Express server
 const app = express()
 const server = createServer(app)
-const io = new Server(server, {
-    cors: {
-        origin: process.env.CLIENT,
-        credentials: true
-    }
-})
-
 server.listen(process.env.PORT || 8080, () => console.log(`server is running on ${process.env.PORT}`) )
 
-io.on("connection", (client) => {
-    console.log("User connected")
-})
+// Socket connections
+const io  = new Server(server, {cors: CorsConfig})
+StatusSocket(io)
 
-app.use(cors({
-    origin: process.env.CLIENT,
-    credentials: true
-}))
+// Middlewares
+app.use(cors(CorsConfig))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+// End points
 app.use('/api-docs', serve, setup(SwaggerConfig))
 app.use('/auth', AuthRouter)
 app.use('/storage', AuthMiddleware, storageRouter)
