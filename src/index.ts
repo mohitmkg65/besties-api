@@ -17,6 +17,7 @@ import SwaggerConfig from "./util/swagger"
 import { serve, setup } from "swagger-ui-express"
 import StatusSocket from "./socket/status.socket"
 import CorsConfig from "./util/cors"
+import ChatSocket from "./socket/chat.socket"
 
 // Express server
 const app = express()
@@ -26,6 +27,7 @@ server.listen(process.env.PORT || 8080, () => console.log(`server is running on 
 // Socket connections
 const io  = new Server(server, {cors: CorsConfig})
 StatusSocket(io)
+ChatSocket(io)
 
 // Middlewares
 app.use(cors(CorsConfig))
