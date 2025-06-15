@@ -18,6 +18,7 @@ import { serve, setup } from "swagger-ui-express"
 import StatusSocket from "./socket/status.socket"
 import CorsConfig from "./util/cors"
 import ChatSocket from "./socket/chat.socket"
+import ChatRouter from "./router/chat.router"
 
 // Express server
 const app = express()
@@ -40,3 +41,4 @@ app.use('/api-docs', serve, setup(SwaggerConfig))
 app.use('/auth', AuthRouter)
 app.use('/storage', AuthMiddleware, storageRouter)
 app.use('/freind', AuthMiddleware, FreindRouter)
+app.use('/chat', AuthMiddleware, ChatRouter)

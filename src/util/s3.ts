@@ -15,7 +15,7 @@ const conn = new S3Client({
 export const isFileExist = async (path: string) => {
     try {
         const checkFileExistsCommand = new HeadObjectCommand({
-            Bucket: process.env.AWS_S3_BBUCKET,
+            Bucket: process.env.AWS_S3_BUCKET,
             Key: path
         })
         await conn.send(checkFileExistsCommand)
@@ -27,7 +27,7 @@ export const isFileExist = async (path: string) => {
 
 export const downloadObject = async (path: string,  expiry: number = 60) => {
     const option = {
-        Bucket: process.env.AWS_S3_BBUCKET,
+        Bucket: process.env.AWS_S3_BUCKET,
         Key: path,
     }
     const command = new GetObjectCommand(option)
@@ -37,7 +37,7 @@ export const downloadObject = async (path: string,  expiry: number = 60) => {
 
 export const uploadObject = async (path: string, type: string, acl: ACLtype = "private") => {
     const command = new PutObjectCommand({
-        Bucket: process.env.AWS_S3_BBUCKET,
+        Bucket: process.env.AWS_S3_BUCKET,
         Key: path,
         ContentType: type,
         ACL: acl
